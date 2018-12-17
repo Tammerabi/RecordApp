@@ -1,49 +1,108 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+// In App.js in a new project
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React from "react";
+import { Button, View, Text, FlatList, StatusBar } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import Tile from './app/components/Tile';
+import styles from './styles';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { data: [{key: 1}, {key: 2}] };
+  }
+  static navigationOptions = {
+    title: 'Home',
+  };
 
-type Props = {};
-export default class App extends Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <View>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="#FFD700"
+        />
+        <FlatList 
+          columnWrapperStyle={styles.flatlist}
+          data={[{key: 'a'}, {key: 'b'}, {key: 'c'}, {key: 'd'}]}
+          renderItem={({item}) => <Tile />}
+          numColumns={2}
+        />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+class DetailsScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('otherParam', 'A Nested Details Screen'),
+    };
+  };
+
+  render() {
+    /* 2. Get the param, provide a fallback value if not available */
+    const { navigation } = this.props;
+    const itemId = navigation.getParam('itemId', 'NO-ID');
+    const otherParam = navigation.getParam('otherParam', 'some default value');
+
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="#FFD700"
+        />
+        <Text>Details Screen</Text>
+        <Text>itemId: {JSON.stringify(itemId)}</Text>
+        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+        <Button
+          title="Go to Details... again"
+          onPress={() =>
+            this.props.navigation.push('Details', {
+              itemId: Math.floor(Math.random() * 100),
+            })}
+        />
+        <Button
+          title="Go to Home"
+          onPress={() => this.props.navigation.navigate('Home')}
+        />
+        <Button
+          title="Go back"
+          onPress={() => this.props.navigation.goBack()}
+        />
+        <Button
+          title="Update the title"
+          onPress={() => this.props.navigation.setParams({otherParam: 'Updated!'})}
+        />
+      </View>
+    );
+  }
+}
+
+const RootStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Details: DetailsScreen,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+  {
+    initialRouteName: 'Home',
+    /* The header config from HomeScreen is now here */
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#FFD700',
+      },
+      headerTintColor: '#000',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
+}
