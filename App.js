@@ -12,12 +12,12 @@ class HomeScreen extends React.Component {
     this.state = { data: [{key: 1}, {key: 2}] };
   }
   static navigationOptions = {
-    title: 'Home',
+    title: 'My Records',
   };
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1, justifyContent: 'space-between'}}>
         <StatusBar
           barStyle="dark-content"
           backgroundColor="#FFD700"
@@ -27,6 +27,10 @@ class HomeScreen extends React.Component {
           data={[{key: 'a'}, {key: 'b'}, {key: 'c'}, {key: 'd'}]}
           renderItem={({item}) => <Tile />}
           numColumns={2}
+        />
+        <Button
+          title="ADD NEW RECORD"
+          onPress={() => this.props.navigation.navigate('Details')}
         />
       </View>
     );
