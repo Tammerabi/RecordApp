@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {moderateScale} from '../../utils/fontScale'
-
+import CONSTANTS from '../../../app/constants'
 
 export default StyleSheet.create({
     text: {
@@ -22,5 +22,16 @@ export default StyleSheet.create({
     },
     input: {
         height: 40
+    },
+    touchable: {
+        flex: .15, 
+        backgroundColor: CONSTANTS.GOLD,
+        justifyContent: 'center',
+    },
+    saveButton: {
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        fontSize: moderateScale(25),
+        fontWeight: 'bold'
     }
 });

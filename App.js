@@ -6,6 +6,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import AddRecordScreen from './app/screens/AddRecordScreen/AddRecordScreen.js'
 import Tile from './app/components/Tile';
 import styles from './styles';
+import CONSTANTS from './app/constants';
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class HomeScreen extends React.Component {
       <View style={{flex: 1, justifyContent: 'space-between'}}>
         <StatusBar
           barStyle="dark-content"
-          backgroundColor="#FFD700"
+          backgroundColor={CONSTANTS.HEADER_COLOR}
         />
         <FlatList 
           columnWrapperStyle={styles.flatlist}
@@ -48,7 +49,7 @@ const RootStack = createStackNavigator(
     /* The header config from HomeScreen is now here */
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#FFD700',
+        backgroundColor: CONSTANTS.HEADER_COLOR,
       },
       headerTintColor: '#000',
       headerTitleStyle: {
