@@ -1,8 +1,9 @@
 // In App.js in a new project
 
 import React from "react";
-import { Button, View, Text, FlatList, StatusBar } from "react-native";
+import { Button, View, Text, FlatList, StatusBar, TextInput } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import AddRecordScreen from './app/screens/AddRecordScreen/AddRecordScreen.js'
 import Tile from './app/components/Tile';
 import styles from './styles';
 
@@ -30,53 +31,7 @@ class HomeScreen extends React.Component {
         />
         <Button
           title="ADD NEW RECORD"
-          onPress={() => this.props.navigation.navigate('Details')}
-        />
-      </View>
-    );
-  }
-}
-
-class DetailsScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam('otherParam', 'A Nested Details Screen'),
-    };
-  };
-
-  render() {
-    /* 2. Get the param, provide a fallback value if not available */
-    const { navigation } = this.props;
-    const itemId = navigation.getParam('itemId', 'NO-ID');
-    const otherParam = navigation.getParam('otherParam', 'some default value');
-
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor="#FFD700"
-        />
-        <Text>Details Screen</Text>
-        <Text>itemId: {JSON.stringify(itemId)}</Text>
-        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-        <Button
-          title="Go to Details... again"
-          onPress={() =>
-            this.props.navigation.push('Details', {
-              itemId: Math.floor(Math.random() * 100),
-            })}
-        />
-        <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}
-        />
-        <Button
-          title="Go back"
-          onPress={() => this.props.navigation.goBack()}
-        />
-        <Button
-          title="Update the title"
-          onPress={() => this.props.navigation.setParams({otherParam: 'Updated!'})}
+          onPress={() => this.props.navigation.navigate('AddRecord')}
         />
       </View>
     );
@@ -86,7 +41,7 @@ class DetailsScreen extends React.Component {
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Details: DetailsScreen,
+    AddRecord: AddRecordScreen,
   },
   {
     initialRouteName: 'Home',
