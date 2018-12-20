@@ -1,12 +1,14 @@
 // In App.js in a new project
 
 import React from "react";
-import { Button, View, Text, FlatList, StatusBar, TextInput } from "react-native";
+import { View, FlatList, StatusBar, Alert } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import AddRecordScreen from './app/screens/AddRecordScreen/AddRecordScreen.js'
 import Tile from './app/components/Tile';
 import styles from './styles';
 import CONSTANTS from './app/constants';
+import BannerButton from './app/components/BannerButton'
+import getAllRecords from './app/utils/storage'
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -16,6 +18,16 @@ class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'My Records',
   };
+
+  componentDidMount() {
+    this.retrieveAllRecords()
+  }
+
+  async retrieveAllRecords() {
+    console.log("Retrieving")
+    var records = await getAllRecords()
+    console.log("Records: " + JSON.stringify(records));
+  }
 
   render() {
     return (
@@ -30,9 +42,9 @@ class HomeScreen extends React.Component {
           renderItem={({item}) => <Tile />}
           numColumns={2}
         />
-        <Button
-          title="ADD NEW RECORD"
-          onPress={() => this.props.navigation.navigate('AddRecord')}
+        <BannerButton
+          text="ADD NEW RECORD"
+          onPress={() => this.retrieveAllRecords()}
         />
       </View>
     );

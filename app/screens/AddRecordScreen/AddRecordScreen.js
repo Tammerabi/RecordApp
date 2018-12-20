@@ -1,7 +1,9 @@
 import React from "react";
-import { Button, View, Text, FlatList, StatusBar, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StatusBar, TextInput } from "react-native";
 import styles from './styles';
 import CONSTANTS from '../../../app/constants';
+import BannerButton from '../../components/BannerButton';
+import storeData from '../../utils/storage';
 
 export default class AddRecordScreen extends React.Component {
   constructor(props) {
@@ -21,7 +23,15 @@ export default class AddRecordScreen extends React.Component {
   };
 
   createRecord = () => {
-
+    var id = "Record-" + Math.floor(Math.random() * 10000000000)
+    var record = Object.assign({}, this.state);
+    if (this.state.description != '') {
+      console.log("trying to store", id, record)
+      var record = storeData(id, record);
+      console.log("New record: ", record)
+    } else {
+      console.log("No description")
+    }
   }
 
   render() {
@@ -52,7 +62,7 @@ export default class AddRecordScreen extends React.Component {
               <TextInput
                 underlineColorAndroid= "#bbb"
                 style={styles.input}
-                onChangeText={(number) => this.setState({text})}
+                onChangeText={(number) => this.setState({number})}
               />
             </View>
             <View style={{flex: .55, flexDirection: 'column'}} >
@@ -75,9 +85,7 @@ export default class AddRecordScreen extends React.Component {
               />
           </View>
         </View>
-        <TouchableOpacity disabled={false} onPress={this.createRecord} style={styles.touchable}>
-          <Text style={styles.saveButton}>SAVE</Text>
-        </TouchableOpacity>
+        <BannerButton text='SAVE' onPress={this.createRecord} disabled={this.state.description == ''} />
       </View>
     );
   }

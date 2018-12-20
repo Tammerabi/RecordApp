@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import {moderateScale} from '../../utils/fontScale'
-
+import CONSTANTS from '../../../app/constants'
 
 const size = Dimensions.get('window').height * 0.35
 const marginTop = Dimensions.get('window').width * 0.05
@@ -11,7 +11,7 @@ export default StyleSheet.create({
         width: size,
         height: size,
         marginTop: marginTop,
-        backgroundColor: '#DCDCDC'
+        backgroundColor: CONSTANTS.PLATINUM
     },
     upperBox: {
         flex: 1,
@@ -21,7 +21,7 @@ export default StyleSheet.create({
     lowerBox: {
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: '#DCDCDC',
+        borderColor: CONSTANTS.PLATINUM,
         backgroundColor: '#fff',
         flex: 0.25,
         justifyContent: 'center'
