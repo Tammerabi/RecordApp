@@ -4,14 +4,14 @@ import CONSTANTS from '../../../app/constants'
 
 export default StyleSheet.create({
     touchable: {
-        height: moderateScale(75), 
-        backgroundColor: CONSTANTS.GOLD,
-        justifyContent: 'center',
+        height: moderateScale(65), 
+        justifyContent: 'center'
     },
-    button: {
+    buttonText: {
         textAlign: 'center',
         textAlignVertical: 'center',
         fontSize: moderateScale(25),
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        flex: 1
     }
 });

@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Text, StatusBar, TextInput } from "react-native";
+import { View, Text, StatusBar, TextInput, AsyncStorage } from "react-native";
 import styles from './styles';
 import CONSTANTS from '../../../app/constants';
 import BannerButton from '../../components/BannerButton';
 import storeData from '../../utils/storage';
+import {moderateScale} from '../../utils/fontScale'
+
 
 export default class AddRecordScreen extends React.Component {
   constructor(props) {
@@ -22,13 +24,17 @@ export default class AddRecordScreen extends React.Component {
     };
   };
 
-  createRecord = () => {
+  createRecord() {
     var id = "Record-" + Math.floor(Math.random() * 10000000000)
     var record = Object.assign({}, this.state);
     if (this.state.description != '') {
       console.log("trying to store", id, record)
-      var record = storeData(id, record);
-      console.log("New record: ", record)
+      try {
+        AsyncStorage.setItem(id, JSON.stringify(record)).then((value => {console.log('Record added')}))
+      } catch (error) {
+          console.log(error);
+      }
+      this.props.navigation.goBack();
     } else {
       console.log("No description")
     }
@@ -85,7 +91,10 @@ export default class AddRecordScreen extends React.Component {
               />
           </View>
         </View>
-        <BannerButton text='SAVE' onPress={this.createRecord} disabled={this.state.description == ''} />
+        <BannerButton text='SAVE' 
+                      onPress={this.createRecord.bind(this)} 
+                      disabled={this.state.description == ''}
+                      colors={[CONSTANTS.NEW_RECORD_BUTTON_1, CONSTANTS.NEW_RECORD_BUTTON_2]} />
       </View>
     );
   }

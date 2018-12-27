@@ -11,15 +11,18 @@ export default StyleSheet.create({
         width: size,
         height: size,
         marginTop: marginTop,
-        backgroundColor: CONSTANTS.PLATINUM
+        backgroundColor: CONSTANTS.PLATINUM,
+        borderRadius: 4,
+        paddingTop: moderateScale(8)
     },
     upperBox: {
         flex: 1,
         justifyContent: 'space-evenly',
-        paddingHorizontal: moderateScale(20)
+        paddingHorizontal: moderateScale(20),
     },
     lowerBox: {
-        borderRadius: 4,
+        borderBottomLeftRadius: 4,
+        borderBottomRightRadius: 4,
         borderWidth: 1,
         borderColor: CONSTANTS.PLATINUM,
         backgroundColor: '#fff',
@@ -27,23 +30,28 @@ export default StyleSheet.create({
         justifyContent: 'center'
     },
     title: {
-        fontWeight: 'bold',
-        fontSize: moderateScale(30),
+        fontSize: moderateScale(28),
         height: moderateScale(25),
-        lineHeight: moderateScale(30),
-        textAlign: 'center'
+        lineHeight: moderateScale(28),
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'RODUScut700'
     },
     number: {
-        fontSize: moderateScale(120),
-        height: moderateScale(100),
-        lineHeight: moderateScale(120),
-        textAlign: 'center'
+        fontSize: moderateScale(110),
+        height: moderateScale(90),
+        lineHeight: moderateScale(110),
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'RODUScut300'
     },
     text: {
         fontSize: moderateScale(20),
         height: moderateScale(20),
         lineHeight: moderateScale(20),
-        textAlign: 'center'
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'RODUScut300'
     },
     date: {
         textAlign: 'center'

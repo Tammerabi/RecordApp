@@ -1,14 +1,14 @@
 // In App.js in a new project
 
 import React from "react";
-import { View, FlatList, StatusBar, Alert } from "react-native";
+import { View, FlatList, StatusBar, Alert, AsyncStorage } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import AddRecordScreen from './app/screens/AddRecordScreen/AddRecordScreen.js'
 import Tile from './app/components/Tile';
 import styles from './styles';
 import CONSTANTS from './app/constants';
 import BannerButton from './app/components/BannerButton'
-import getAllRecords from './app/utils/storage'
+import LinearGradient from 'react-native-linear-gradient'
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -20,20 +20,29 @@ class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.retrieveAllRecords()
+    this.getAllRecords()
   }
 
-  async retrieveAllRecords() {
-    console.log("Retrieving")
-    var records = await getAllRecords()
-    console.log("Records: " + JSON.stringify(records));
-  }
+  async getAllRecords() {
+    try {
+        var keys = await AsyncStorage.getAllKeys()
+        var records = await AsyncStorage.multiGet(keys);
+        console.log('heh', records)
+        return records;
+    } catch (error) {
+        console.log(error)
+        return error;
+    }
+}
 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'space-between'}}>
+      <LinearGradient style={{flex: 1, 
+                              justifyContent: 'space-between', 
+                              backgroundColor: CONSTANTS.BACKGROUND_COLOR}}
+                      colors={['#414141', '#000000']} useAngle= {true} angle= {135} angleCenter= {{ x: 0.25, y: 0.25}}>
         <StatusBar
-          barStyle="dark-content"
+          barStyle="light-content"
           backgroundColor={CONSTANTS.HEADER_COLOR}
         />
         <FlatList 
@@ -44,9 +53,10 @@ class HomeScreen extends React.Component {
         />
         <BannerButton
           text="ADD NEW RECORD"
-          onPress={() => this.retrieveAllRecords()}
+          colors={[CONSTANTS.NEW_RECORD_BUTTON_1, CONSTANTS.NEW_RECORD_BUTTON_2]}
+          onPress={() => this.props.navigation.navigate('AddRecord')}
         />
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -58,12 +68,11 @@ const RootStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
-    /* The header config from HomeScreen is now here */
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: CONSTANTS.HEADER_COLOR,
+        backgroundColor: CONSTANTS.HEADER_COLOR
       },
-      headerTintColor: '#000',
+      headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
